@@ -1,6 +1,19 @@
 const express = require('express')
 const app = express()
-const PORT = 8000
+app.use(express.json());
+require('dotenv').config();
+let cors = require('cors')
+app.use(cors({origin:"*"}));
 
 
-app.listen(8000, ()=>{console.log('server running on port '+ PORT )});
+
+const PORT = process.env.PORT || 8000;
+
+const usersRoutes = require('./Routes/users');
+app.use('/users', usersRoutes) 
+const commentsRoutes = require('./Routes/comments');
+app.use('/comments', commentsRoutes)
+
+app.listen(PORT, ()=>{console.log('server running on port '+ PORT )});
+
+
