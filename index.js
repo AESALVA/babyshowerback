@@ -15,10 +15,10 @@ mongoose.connect(process.env.URI, {
 
 const PORT = process.env.PORT || 8000;
 
-const usersRoutes = require('./Routes/users');
-app.use('/users', usersRoutes) 
-const commentsRoutes = require('./Routes/comments');
-app.use('/comments', commentsRoutes)
+const usersRoutes = require('./Routes/Users');
+app.use('/Users', usersRoutes) 
+const commentsRoutes = require('./Routes/Comments');
+app.use('/Comments', commentsRoutes)
 
 app.listen(PORT, ()=>{console.log('server running on port '+ PORT )});
 
