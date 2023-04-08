@@ -15,9 +15,9 @@ mongoose.connect(process.env.URI, {
 
 const PORT = process.env.PORT || 8000;
 
-const usersRoutes = require('./Routes/Users');
+const usersRoutes = require('./Routes/users');
 app.use('/Users', usersRoutes) 
-const commentsRoutes = require('./Routes/Comments');
+const commentsRoutes = require('./Routes/comments');
 app.use('/Comments', commentsRoutes)
 
 app.listen(PORT, ()=>{console.log('server running on port '+ PORT )});
