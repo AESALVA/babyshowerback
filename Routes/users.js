@@ -151,6 +151,16 @@ router
       res.status(400).json({ error: true, message: error });
     }
   })
+  .post('/search', async(req,res)=>{
+    console.log('POST /search');
+    const {body}=req;
+    try {
+      const user = await User.findOne({name:body.name});
+      res.status(200).json(user._id);
+    } catch (error) {
+      res.status(400).json({error:error.message});
+    }
+  })
 
 
 
