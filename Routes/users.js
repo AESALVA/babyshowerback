@@ -40,6 +40,7 @@ router
       return res.status(200).json({
         error: null,
         role: user.role,
+        name:user.name,
         message: "User and password OK",
       });
     } else {
