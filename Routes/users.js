@@ -22,7 +22,7 @@ router
   }).post("/login", async (req, res) => {
     const { body } = req;
 
-    const user = await User.findOne({ name: body.name });
+    const user = await User.findOne({ mail: body.mail });
     if (!user) {
       return res.status(400).json({
         error: true,
