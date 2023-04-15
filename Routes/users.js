@@ -2,6 +2,8 @@ const router = require("express").Router();
 const User = require("../Models/User");
 const bcrypt = require("bcryptjs");
 const { body, validationResult } = require("express-validator");
+const nodemailer = require("nodemailer");
+
 
 
 
@@ -161,7 +163,86 @@ router
     } catch (error) {
       res.status(400).json({error:error.message});
     }
-  })
+  }).post("/forgotPassword", async (req, res) => {
+    const { mail } = req.body;
+    const Username = "eduardo_salva@hotmail.com";
+    const Password = "Salva240387";
+
+    const user = await User.findOne({ mail: mail });
+    if (!user) {
+      return res.status(400).json({ error: true, message: "user not found" });
+    }
+
+    try {
+      const link = `https://aesalva.github.io/babyShowerCande/ResetPassword`;
+        
+      let transporter = nodemailer.createTransport({
+        host: "smtp-mail.outlook.com",
+        secureConnection: false,
+        secure: false,
+        port:587,
+        logger: true,
+        debug: true,
+        tls: {
+          ciphers:'SSLv3',
+          rejectUnauthorized: true
+       },
+        auth: {
+          user: Username,
+          pass: Password,
+        },
+      });
+    let mailOptions = {
+      from: 'eduardo_salva@hotmail.com',
+      to: mail,
+      subject: "Password Reset",
+      text: `Hola ${
+        user.name
+      } Candelaria's WebSite le envia el siguiente link para restablecer su contraseña ${" "}${link} y su clave Token es: ${
+        user._id
+      }`,
+    };
+    
+   
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        return res.status(401).json({message:'Error',error:error.message})
+      } else {
+        return res.status(200).json({message:"OK MAIL"})
+      }
+    });
+    } catch (error) {
+      return res.status(401).json({message:'Error',error:error.message})
+    }
+    
+  }).post("/resetPassword/:id", async (req, res) => {
+    const { id } = req.params;
+    const { password } = req.body;
+    const { confirmPassword } = req.body;
+
+    if (password !== confirmPassword) {
+      return res
+        .status(400)
+        .json({ error: true, message: "passwords not match" });
+    }
+
+    const user = await User.findOne({ _id: id });
+
+    if (!user) {
+      return res.status(400).json({ error: true, message: "user not found" });
+    }
+    try {
+      const salt = await bcrypt.genSalt(6);
+      const encrytedPassword = await bcrypt.hash(password, salt);
+      await User.updateOne(
+        { _id: id },
+        { $set: { password: encrytedPassword } }
+      );
+      res.status(200).json({ message: "New Password OK" });
+    } catch (error) {
+      res.status(400).json({ error: true, messaje: error });
+    }
+  })    
 
 
 
