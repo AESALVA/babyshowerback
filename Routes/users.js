@@ -174,7 +174,7 @@ router
     }
 
     try {
-      const link = `https://aesalva.github.io/babyShowerCande/ResetPassword`;
+      const link = `https://aesalva.github.io/babyShowerCande/#/babyShowerCande/ResetPassword`;
         
       let transporter = nodemailer.createTransport({
         host: "smtp-mail.outlook.com",
