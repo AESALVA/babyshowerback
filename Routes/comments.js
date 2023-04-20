@@ -13,7 +13,7 @@ router
     } catch (error) {
       res.status(400).json({ error: true, message: error });
     }
-  }).post("/newMessage", body("comment").matches("^[a-zA-Z ]*$").isLength({ min: 8, max: 300 }), async (req, res) => {
+  }).post("/newMessage", body("comment").isLength({ min: 8, max: 300 }), async (req, res) => {
     console.log("POST /Messages/newMessage");
     const errors = validationResult(req);
     
