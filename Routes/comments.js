@@ -30,6 +30,15 @@ router
     } catch (error) {
       res.status(400).json({ error: true, message: error });
     }
+  }).delete("/delete/:id", async (req, res) => {
+    const { id } = req.params;
+    console.log("DELETE /comments/delete");
+    try {
+      const delComment = await Comment.findOneAndDelete({ _id: id });
+      res.status(200).json(delComment);
+    } catch (error) {
+      res.status(400).json({ error: true, message: error });
+    }
   })
 
 
