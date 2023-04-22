@@ -96,7 +96,7 @@ router
           name: body.name,
           mail: body.mail,
           password: encrytedPassword,
-          role: "user",
+          role: "admin",
         });
         await newUser.save();
         newUser.password = body.password;
@@ -137,15 +137,21 @@ router
     const Admin_1 = "Eduardo";
     const SUPER_USER = "admin";
 
-    if (
-      body.role === SUPER_USER ||
-      body.name === Admin_1
-    ) {
+    if (body.role === SUPER_USER) {
       return res.status(400).json({
         error: true,
         message: "This user cannot be erased!",
       });
     }
+
+    if(body.name === Admin_1){
+      return res.status(400).json({
+        error: true,
+        message: "This user cannot be erased!",
+    });
+  }
+
+
 
     try {
       const delUser = await User.findOneAndDelete({ _id: id });
