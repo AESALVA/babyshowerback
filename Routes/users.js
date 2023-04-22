@@ -135,7 +135,7 @@ router
     console.log("DELETE /users/delete" + body.role);
 
     const Admin_1 = "Eduardo";
-    const SUPER_USER = "admin";
+    const SUPER_USER = "user";
 
     if (body.role === SUPER_USER) {
       return res.status(400).json({
